@@ -1,0 +1,67 @@
+% Input parameters
+A1 = input('Enter the value of A1: ');
+A2 = input('Enter the value of A2: ');
+w1 = input('Enter the value of W1 (in rad/s): ');
+w2 = input('Enter the value of W2 (in rad/s): ');
+wc = input('Enter the value of Wc (in rad/s): ');
+
+
+% Time vector
+t1 = input('Enter the value of t1: ');
+t2 = input('Enter the value of t2: ');
+t = linspace(t1, t2, 1000); % Time range from t1 to t2 
+
+% Signal x(t)
+x_t = A1 * cos(w1 * t) + A2 * cos(w2 * t);
+
+% Modulated signal y(t)
+y_t = x_t .* cos(wc * t);
+
+% Plot waveforms x(t) and y(t)
+figure;
+subplot(2, 1, 1);
+plot(t, x_t, 'b', 'LineWidth', 2);
+title('Waveform x(t)');
+xlabel('Time (t)');
+ylabel('Amplitude');
+grid on;
+
+subplot(2, 1, 2);
+plot(t, y_t, 'r', 'LineWidth', 2);
+title('Waveform y(t)');
+xlabel('Time (t)');
+ylabel('Amplitude');
+grid on;
+
+
+% Calculate X(w) analytically
+% Frequencies and amplitudes
+frequencies = [-w2, -w1, w1, w2];
+amplitudes = [A2* pi, A1* pi, A1* pi, A2* pi];
+
+% Plot spectrum X(w)
+figure;
+subplot(2, 1, 1);
+stem(frequencies, amplitudes, 'filled', 'MarkerSize', 10);
+title('Spectrum of X(w)');
+xlabel('Frequency (w)');
+ylabel('Amplitude');
+grid on;
+
+% Set custom tick labels
+xticks(frequencies);
+xticklabels({['-w2 (' num2str(-w2) ')'], ['-w1 (' num2str(-w1) ')'], ['w1 (' num2str(w1) ')'], ['w2 (' num2str(w2) ')']});
+
+% Adjust plot limits
+axis([min(frequencies)-1 max(frequencies)+1 0 max(amplitudes)+1]);
+
+% To calculate Y(w) we can do the same as calculating X(w) but in this case I won't show xtick labels
+% Plot spectrum Y(w)
+frequencies2 = [-w1 + wc, w1 + wc, -w2 + wc, w2 + wc, -w1 - wc, w1 - wc, -w2 - wc, w2 - wc];
+amplitudes2 = [A1 * pi / 2, A1 * pi / 2, A2 * pi /2, A2 * pi/2, A1 * pi / 2, A1 * pi / 2, A2 * pi / 2, A2 * pi / 2];
+subplot(2, 1, 2);
+stem(frequencies2, amplitudes2, 'filled', 'MarkerSize', 10);
+title('Spectrum of Y(w) ');
+xlabel('Frequency (w)');
+ylabel('Amplitude');
+grid on;
