@@ -1,0 +1,25 @@
+n = input('Enter the value of n: ');
+A = input('Enter the value of A: ');
+T = input('Enter the value of T: ');
+
+omega_0 = 2 * pi / T;
+
+Dn_expression = @(n, A, T) (1 / T) * integral(@(t) A * abs(sin(pi * t / T)) .* exp(-1j * 2 * pi * n * t / T), 0, T);
+Dn_value = Dn_expression(n, A, T);
+
+magnitude_spectrum = Dn_value;
+phase_spectrum_deg = rad2deg(angle(Dn_value));
+
+figure;
+subplot(2, 1, 1);
+stem(n, real(magnitude_spectrum)); % Use real() to display the real part
+title('Magnitude Spectrum');
+xlabel('n');
+ylabel('D_n');
+
+subplot(2, 1, 2);
+stem(n, phase_spectrum_deg);
+title('Phase Spectrum');
+xlabel('n');
+ylabel('Phase (degrees)');
+

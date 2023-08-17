@@ -1,0 +1,30 @@
+%Copy line 1-8 from listing 3
+n = input('Enter the value of n: ');
+A = input('Enter the value of A: ');
+T = input('Enter the value of T: ');
+
+n_values = -n:n;
+Dn_expression = @(n, A, T) (1 / T) * integral(@(t) A * abs(sin(pi * t / T)) .* exp(-1j * 2 * pi * n * t / T), 0, T);
+
+Dn_values = arrayfun(@(n) Dn_expression(n, A, T), n_values)
+
+magnitude_spectrum = abs(Dn_values);
+phase_spectrum_rad = angle(Dn_values);
+phase_spectrum_deg = rad2deg(phase_spectrum_rad);
+
+% Concatenate phase values for both positive and negative n
+n_all = [-n_values(end:-1:2), n_values];
+phase_spectrum_all = [phase_spectrum_deg(end:-1:2), phase_spectrum_deg];
+
+figure;
+subplot(2, 1, 1);
+stem(n_values, real(magnitude_spectrum));
+title('Magnitude Spectrum');
+xlabel('n');
+ylabel('|D_n|');
+
+subplot(2, 1, 2);
+stem(n_all, phase_spectrum_all);
+title('Phase Spectrum');
+xlabel('n');
+ylabel('Phase (degrees)');

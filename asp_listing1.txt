@@ -1,0 +1,19 @@
+% Given parameters
+A = 120; % Amplitude
+To = 0.01; % Period
+T= 2*To
+f= 1/T;
+
+% Time vector
+t = linspace(-2*To, 2*To, 1000); % Time range from -2To to 2To
+
+% Signal x(t)
+x_t = A * abs(sin(2*pi*f*t));
+
+% Plot the signal x(t)
+figure;
+plot(t, x_t, 'b', 'LineWidth', 2);
+title('Signal x(t) = 120|sin(100pit)|');
+xlabel('Time (t)');
+ylabel('Amplitude x(t)');
+grid on;
